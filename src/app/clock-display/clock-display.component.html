@@ -1,1 +1,16 @@
-<p>text for display</p>
+<div class="clock-container">    
+    <div *ngFor="let clock of clocks" >
+        <div class="clock-card">
+            <div *ngIf="clock.display">
+                <h3>{{clock.timeZone}}</h3>
+                <div *ngIf="clock.isAnalog"> <!-- optional -->
+                    <p>Analog Clock for {{clock.timeZoneName}}</p>
+                </div>
+                <div>
+                    <p>Digital Clock for {{clock.timeZoneName}}</p>
+                    <p>{{clock.formattedTime}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
