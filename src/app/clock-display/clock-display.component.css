@@ -14,7 +14,7 @@
     padding: 24px;
     margin: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    flex: 1 1 calc(33.33% -32px);
+    flex: 1 1 calc(33.33% - 32px);
     max-width: calc(33.33% - 32px);
     min-width: 250px;
     text-align: center;

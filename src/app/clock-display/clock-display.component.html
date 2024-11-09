@@ -1,7 +1,8 @@
 <div class="clock-container">    
     <div *ngFor="let clock of clocks" >
         <div class="clock-card">
-            <div *ngIf="clock.display">
+            <!-- <div *ngIf="clock.display"> -->
+            <div>
                 <h3>{{clock.timeZone}}</h3>
                 <div *ngIf="clock.isAnalog"> <!-- optional -->
                     <p>Analog Clock for {{clock.timeZoneName}}</p>

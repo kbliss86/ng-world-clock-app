@@ -19,7 +19,7 @@ export class ClocksService {
     },
     {
       index: 1,
-      timeZone: 'GMT',
+      timeZone: 'Etc/GMT',
       timeZoneName: 'Greenwich Mean Time',
       utcOffset: 0,
       formattedTime: '',
@@ -29,7 +29,7 @@ export class ClocksService {
     },
     {
       index: 2,
-      timeZone: 'BST',
+      timeZone: 'Europe/London',
       timeZoneName: 'British Summer Time',
       utcOffset: 1,
       formattedTime: '',
@@ -39,7 +39,7 @@ export class ClocksService {
     },
     {
       index: 3,
-      timeZone: 'CET',
+      timeZone: 'Europe/Berlin',
       timeZoneName: 'Central European Time',
       utcOffset: 1,
       formattedTime: '',
@@ -49,7 +49,7 @@ export class ClocksService {
     },
     {
       index: 4,
-      timeZone: 'EET',
+      timeZone: 'Europe/Kiev',
       timeZoneName: 'Eastern European Time',
       utcOffset: 2,
       formattedTime: '',
@@ -59,7 +59,7 @@ export class ClocksService {
     },
     {
       index: 5,
-      timeZone: 'MSK',
+      timeZone: 'Europe/Moscow',
       timeZoneName: 'Moscow Standard Time',
       utcOffset: 3,
       formattedTime: '',
@@ -69,7 +69,7 @@ export class ClocksService {
     },
     {
       index: 6,
-      timeZone: 'IST',
+      timeZone: 'Asia/Kolkata',
       timeZoneName: 'Indian Standard Time',
       utcOffset: 5.5,
       formattedTime: '',
@@ -79,7 +79,7 @@ export class ClocksService {
     },
     {
       index: 7,
-      timeZone: 'AWST',
+      timeZone: 'Australia/Perth',
       timeZoneName: 'Australian Western Standard Time',
       utcOffset: 8,
       formattedTime: '',
@@ -89,7 +89,7 @@ export class ClocksService {
     },
     {
       index: 8,
-      timeZone: 'ACST',
+      timeZone: 'Australia/Adelaide',
       timeZoneName: 'Australian Central Standard Time',
       utcOffset: 9.5,
       formattedTime: '',
@@ -99,7 +99,7 @@ export class ClocksService {
     },
     {
       index: 9,
-      timeZone: 'AEST',
+      timeZone: 'Australia/Sydney',
       timeZoneName: 'Australian Eastern Standard Time',
       utcOffset: 10,
       formattedTime: '',
@@ -109,7 +109,7 @@ export class ClocksService {
     },
     {
       index: 10,
-      timeZone: 'NZST',
+      timeZone: 'Pacific/Auckland',
       timeZoneName: 'New Zealand Standard Time',
       utcOffset: 12,
       formattedTime: '',
@@ -119,17 +119,17 @@ export class ClocksService {
     },
     {
       index: 11,
-      timeZone: 'HST',
+      timeZone: 'Pacific/Honolulu',
       timeZoneName: 'Hawaii Standard Time',
       utcOffset: -10,
       formattedTime: '',
       isAnalog: false,
       is24Hour: false,
-      display: true
+      display: false
     },
     {
       index: 12,
-      timeZone: 'AKST',
+      timeZone: 'America/Anchorage',
       timeZoneName: 'Alaska Standard Time',
       utcOffset: -9,
       formattedTime: '',
@@ -139,17 +139,17 @@ export class ClocksService {
     },
     {
       index: 13,
-      timeZone: 'PST',
+      timeZone: 'America/Los_Angeles',
       timeZoneName: 'Pacific Standard Time',
       utcOffset: -8,
       formattedTime: '',
       isAnalog: false,
       is24Hour: false,
-      display: false
+      display: true
     },
     {
       index: 14,
-      timeZone: 'MST',
+      timeZone: 'America/Denver',
       timeZoneName: 'Mountain Standard Time',
       utcOffset: -7,
       formattedTime: '',
@@ -159,7 +159,7 @@ export class ClocksService {
     },
     {
       index: 15,
-      timeZone: 'CST',
+      timeZone: 'America/Chicago',
       timeZoneName: 'Central Standard Time',
       utcOffset: -6,
       formattedTime: '',
@@ -169,17 +169,17 @@ export class ClocksService {
     },
     {
       index: 16,
-      timeZone: 'EST',
+      timeZone: 'America/New_York',
       timeZoneName: 'Eastern Standard Time',
       utcOffset: -5,
       formattedTime: '',
       isAnalog: false,
       is24Hour: false,
-      display: false
+      display: true
     },
     {
       index: 17,
-      timeZone: 'AST',
+      timeZone: 'America/Halifax',
       timeZoneName: 'Atlantic Standard Time',
       utcOffset: -4,
       formattedTime: '',
@@ -189,7 +189,7 @@ export class ClocksService {
     },
     {
       index: 18,
-      timeZone: 'NST',
+      timeZone: 'America/St_Johns',
       timeZoneName: 'Newfoundland Standard Time',
       utcOffset: -3.5,
       formattedTime: '',
@@ -199,7 +199,7 @@ export class ClocksService {
     },
     {
       index: 19,
-      timeZone: 'BRST',
+      timeZone: 'America/Sao_Paulo',
       timeZoneName: 'Brasília Summer Time',
       utcOffset: -2,
       formattedTime: '',
