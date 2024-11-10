@@ -1,1 +1,28 @@
-<app-clock-form>This is the app clock form</app-clock-form>
+<div>
+    
+    <form [formGroup]="settingsForm" (ngSubmit)="addClockToDisplay()">
+    <h2>Clock Settings</h2>
+    <label for="timeZone">Select Time Zone:</label>
+    <select id="timeZone" formControlName="timeZone">
+        <option *ngFor="let clock of clocks" [value]="clock.timeZone">{{clock.timeZoneName}}</option>
+    </select>
+    <label for="clockIndex">Clock Index:</label>
+    <p id="clockIndex">{{ settingsForm.value.index }}</p>
+    <div>
+        <label>
+            <input type="checkbox" formControlName="isAnalog"/>Analog Clock?
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" formControlName="is24Hour"/>24 Hour Time?
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" formControlName="display"/>Display Clock?
+        </label>
+    </div>
+    <button type="submit">Add Clock</button>
+    </form>
+</div>
