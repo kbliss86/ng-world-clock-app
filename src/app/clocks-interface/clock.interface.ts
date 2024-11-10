@@ -3,6 +3,7 @@ export interface Clock {
     timeZone: string;
     timeZoneName: string;
     utcOffset: number;
+    imageLink: string;
     formattedTime: string;
     isAnalog: boolean;
     is24Hour: boolean;

@@ -2,10 +2,8 @@ import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ClockDisplayComponent } from "./clock-display/clock-display.component";
 import { ClockSettingsComponent } from "./clock-settings/clock-settings.component";
-import { ClockFormComponent } from "./clock-form/clock-form.component";
 import { CommonModule } from '@angular/common';
 import { ClocksService } from "./clock-service/clocks.service";
-import { ClocksComponent } from "./clocks/clocks.component";
 import { Clock } from './clocks-interface/clock.interface';
 
 
@@ -14,7 +12,7 @@ import { Clock } from './clocks-interface/clock.interface';
   selector: 'app-root',
   standalone: true,
   // imports: [RouterOutlet, ClockDisplayComponent, ClockSettingsComponent, ClockFormComponent, ClocksComponent],
-  imports: [RouterOutlet, ClockDisplayComponent, ClockSettingsComponent, ClockFormComponent, CommonModule, ClocksComponent],
+  imports: [RouterOutlet, ClockDisplayComponent, ClockSettingsComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

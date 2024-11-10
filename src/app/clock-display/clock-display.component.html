@@ -1,16 +1,18 @@
 <div class="clock-container">    
-    <div *ngFor="let clock of clocks" >
-        <div class="clock-card">
+    <div *ngFor="let clock of displayClocks" >
+        <div class="clock-card" [title]="'UTC Offset: ' + clock.utcOffset">
             <!-- <div *ngIf="clock.display"> -->
             <div>
-                <h3>{{clock.timeZone}}</h3>
+                <h3>{{clock.timeZoneName}}</h3>
+                <img src="{{clock.imageLink}}" alt="countryFlag">
                 <div *ngIf="clock.isAnalog"> <!-- optional -->
-                    <p>Analog Clock for {{clock.timeZoneName}}</p>
+                    <p>Analog Clock for {{clock.timeZone}}</p>
                 </div>
                 <div>
-                    <p>Digital Clock for {{clock.timeZoneName}}</p>
+                    <p>Digital Clock for {{clock.timeZone}}</p>
                     <p>{{clock.formattedTime}}</p>
                 </div>
+                <button (click)="removeClock(clock.index)">Remove Clock</button>
             </div>
         </div>
     </div>
