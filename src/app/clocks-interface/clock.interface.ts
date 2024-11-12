@@ -7,5 +7,9 @@ export interface Clock {
     formattedTime: string;
     isAnalog: boolean;
     is24Hour: boolean;
-    display: boolean;   
+    display: boolean;
+    latitude: number;
+    longitude: number;
+    sunrise: string;
+    sunset: string;   
 }

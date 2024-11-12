@@ -1,49 +1,69 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ClocksService } from '../clock-service/clocks.service';
 import { Clock }  from '../clocks-interface/clock.interface';
 import { CommonModule } from '@angular/common';
-// import { NgIf } from '@angular/common';
-// import { NgFor } from '@angular/common';
-// import { get } from 'http';
 import  moment  from 'moment-timezone';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, Inject } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-clock-display',
   standalone: true,
-  // imports: [CommonModule, NgIf, NgFor],
   imports: [CommonModule],
   templateUrl: './clock-display.component.html',
-  styleUrl: './clock-display.component.css'
+  styleUrl: './clock-display.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClockDisplayComponent implements OnInit, OnDestroy {
+export class ClockDisplayComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() displayClocks: Clock[] = [];
-  // @Input() clocks: Clock[] = [];
-  // private intervalId: any;
-  // private subscription!: Subscription;
   private subscription = new Subscription();
+  private destroy$ = new Subject<void>();
 
-  constructor(private clocksService: ClocksService) {}
+  //Analog clock hands
+  @ViewChild('hourHand', { static: false }) hourHand!: ElementRef;
+  @ViewChild('minuteHand', {static: false}) minuteHand!: ElementRef;
+  @ViewChild('secondHand', {static: false}) secondHand!: ElementRef;
+
+  constructor(private clocksService: ClocksService, private cdr: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: Object) {}
+
 
 ngOnInit(): void {
+  console.log('ClockDisplayComponent: ngOnInit');
+  if (isPlatformBrowser(this.platformId)) {
+    this.subscription.add(
+      interval(1000).subscribe(() => this.updateTime())
+    );
   this.subscription.add(
     this.clocksService.displayClocks$.subscribe((clocks) => {
       this.displayClocks = clocks;
       this.updateTime();
+
+      if (this.displayClocks && this.displayClocks.length > 0) {
+        this.updateSunriseSunset();
+      }
     }) 
-  ); 
-  // console.log('displayClocks', this.displayClocks);
-  // console.log('clocks', this.clocks);
-  // this.displayClocks = this.clocksService.getDisplayClocks().filter(clock => clock.display);
-  // this.updateTime();
-  // this.subscription = interval(1000).subscribe(() => this.updateTime());
-  // this.intervalId = setInterval(() => {this.updateTime();}, 1000);
+  );
+      this.cdr.detectChanges();
+    };
+  }
+
+ngAfterViewInit(): void {
+  console.log('ClockDisplayComponent: ngAfterViewInit');
+  if (isPlatformBrowser(this.platformId)) {
+    this.subscription.add(
+  interval(1000).subscribe(() => this.updateTime())
+  );
+  }
 }
 
 ngOnDestroy(): void {
-  // this.subscription.unsubscribe();
-  // if (this.intervalId) {
-  // clearInterval(this.intervalId);
+  this.subscription.unsubscribe();
+  this.destroy$.next();
+  this.destroy$.complete();
   }
 
 removeClock(index: number): void {
@@ -55,26 +75,58 @@ removeClock(index: number): void {
 
 
 updateTime(): void {
+  if (isPlatformBrowser(this.platformId)) {
   const now = moment();
   this.displayClocks.forEach(clock => {
+    if (clock.display) {
     const localTime = now.clone().tz(clock.timeZone);
     const formattedTime = clock.is24Hour
       ? localTime.format('HH:mm:ss')
       : localTime.format('hh:mm:ss A');
 
     clock.formattedTime = formattedTime;
+    
+  if (clock.isAnalog) {
+    this.updateAnalogClock(localTime);
+  }
+}
   });
+  this.cdr.markForCheck();
+  
+}
 }
 
-//helper function to display the time in the correct format
-private formatNumber(num: number): string {
-  return num < 10 ? `0${num}` : num.toString();
+private updateAnalogClock(localTime: moment.Moment): void {
+  localTime.format('hh:mm:ss A');
+  if (isPlatformBrowser(this.platformId) && this.hourHand && this.minuteHand && this.secondHand) {
+    const hours = localTime.hour();
+    const minutes = localTime.minute();
+    const seconds = localTime.second();
+    this.secondHand.nativeElement.style.transform = `rotate(${seconds * 6}deg)`;
+    this.minuteHand.nativeElement.style.transform = `rotate(${minutes * 6}deg)`;
+    this.hourHand.nativeElement.style.transform = `rotate(${hours * 30 + minutes * 0.5}deg)`;
+  }
 }
 
-//helper function to format hours and minutes for 12-hour clock
-private format12Hour(hours: number, minutes: number): string {
-  const adjustedHours = (hours % 12) || 12;
-  const period = hours >= 12 ? 'PM' : 'AM';
-  return `${adjustedHours}:${this.formatNumber(minutes)} ${period}`;
-}  
+updateSunriseSunset(): void {
+this.displayClocks.forEach(clock => {
+  if (clock.display) {
+
+const now = moment();
+const lat = clock.latitude;
+const long = clock.longitude;
+const times = this.clocksService.getSunTimes(now.toDate(), lat, long);
+
+const timeZone = clock.timeZone;
+const sunrise = moment(times.sunrise).tz(timeZone).format('hh:mm A');
+const sunset = moment(times.sunset).tz(timeZone).format('hh:mm A');
+
+clock.sunrise = sunrise;
+clock.sunset = sunset;
+
+console.log('sunrise', sunrise);
+console.log('sunset', sunset);
+  }
+});
+}
 }
