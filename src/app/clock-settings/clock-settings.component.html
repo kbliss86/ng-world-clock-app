@@ -1,7 +1,7 @@
 <div>
     
     <form [formGroup]="settingsForm" (ngSubmit)="addClockToDisplay()">
-    <h2>Clock Settings</h2>
+    <h3>Clock Settings</h3>
     <label for="timeZone">Select Time Zone:</label>
     <select id="timeZone" formControlName="timeZone">
         <option *ngFor="let clock of clocks" [value]="clock.timeZone">{{clock.timeZoneName}}</option>

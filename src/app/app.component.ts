@@ -8,6 +8,7 @@ import { Clock } from './clocks-interface/clock.interface';
 
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -20,7 +21,7 @@ export class AppComponent {
   clocks: Clock[];  
 
   constructor(public clocksService: ClocksService) {
-  this.clocks = this.clocksService.getClocks();
+  this.clocks = this.clocksService.getDisplayClocks();
   } 
 
 }
