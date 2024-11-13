@@ -1,28 +1,36 @@
-<div>
-    
-    <form [formGroup]="settingsForm" (ngSubmit)="addClockToDisplay()">
-    <h3>Clock Settings</h3>
-    <label for="timeZone">Select Time Zone:</label>
-    <select id="timeZone" formControlName="timeZone">
-        <option *ngFor="let clock of clocks" [value]="clock.timeZone">{{clock.timeZoneName}}</option>
-    </select>
-    <label for="clockIndex">Clock Index:</label>
-    <p id="clockIndex">{{ settingsForm.value.index }}</p>
-    <div>
-        <label>
-            <input type="checkbox" formControlName="isAnalog"/>Analog Clock?
-        </label>
+<div class="settings-container">
+    <div class="settingsCard">
+        <!-- Show/Hide Buttons -->
+        <div class="form-header">
+            <h3>Clock Settings</h3>
+            <div class="toggle-buttons">
+                <button (click)="toggleForm(true)" *ngIf="!showForm">Show</button>
+                <button (click)="toggleForm(false)" *ngIf="showForm">Hide</button>
+            </div>
+        </div>
+        <form *ngIf="showForm" [formGroup]="settingsForm" (ngSubmit)="addClockToDisplay()">
+        <label for="timeZone">Select Time Zone:</label>
+        <select id="timeZone" formControlName="timeZone">
+            <option *ngFor="let clock of clocks" [value]="clock.timeZone">{{clock.timeZoneName}}</option>
+        </select>
+        <!-- <label for="clockIndex">Clock Index:</label>
+        <p id="clockIndex">{{ settingsForm.value.index }}</p> -->
+        <div>
+            <label>
+                <input type="checkbox" formControlName="isAnalog"/>Analog Clock?
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" formControlName="is24Hour"/>24 Hour Time?
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" formControlName="display"/>Display Clock?
+            </label>
+        </div>
+        <button type="submit">Add Clock</button>
+        </form>
     </div>
-    <div>
-        <label>
-            <input type="checkbox" formControlName="is24Hour"/>24 Hour Time?
-        </label>
-    </div>
-    <div>
-        <label>
-            <input type="checkbox" formControlName="display"/>Display Clock?
-        </label>
-    </div>
-    <button type="submit">Add Clock</button>
-    </form>
 </div>

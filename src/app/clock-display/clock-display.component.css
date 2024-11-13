@@ -16,7 +16,7 @@
     margin: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     flex: 1 1 calc(33% - 32px);
-    max-width: 300px;
+    max-width: 250px;
     min-width: 250px;
     /* height: 650px; */
     height: auto;
@@ -92,7 +92,7 @@ img {
     color: #666;
 }
 
-.dummy-card {
+.analog-card {
     /* background-color: #bbe1fa; */
     width: auto;
     height: auto;
@@ -100,13 +100,13 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0;
+    /* margin: 10px 0; */
 }
 
 .clock {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;

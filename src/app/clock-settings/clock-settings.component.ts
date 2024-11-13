@@ -26,6 +26,12 @@ export class ClockSettingsComponent implements OnInit {
     });
   }
 
+  showForm: boolean = true;
+
+  toggleForm(show: boolean): void {
+    this.showForm = show;
+  }
+
   ngOnInit(): void {
     this.clocks = this.clocksService.getClocks();
     //update index when timeZone Changes
