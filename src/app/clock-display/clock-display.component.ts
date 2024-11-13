@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChildren, ElementRef, AfterViewInit, QueryList } from '@angular/core';
 import { ClocksService } from '../clock-service/clocks.service';
 import { Clock }  from '../clocks-interface/clock.interface';
 import { CommonModule } from '@angular/common';
@@ -24,9 +24,13 @@ export class ClockDisplayComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
 
   //Analog clock hands
-  @ViewChild('hourHand', { static: false }) hourHand!: ElementRef;
-  @ViewChild('minuteHand', {static: false}) minuteHand!: ElementRef;
-  @ViewChild('secondHand', {static: false}) secondHand!: ElementRef;
+  // @ViewChild('hourHand', { static: false }) hourHand!: ElementRef;
+  // @ViewChild('minuteHand', {static: false}) minuteHand!: ElementRef;
+  // @ViewChild('secondHand', {static: false}) secondHand!: ElementRef;
+
+  @ViewChildren('hourHand') hourHands!: QueryList<ElementRef>;
+  @ViewChildren('minuteHand') minuteHands!: QueryList<ElementRef>;
+  @ViewChildren('secondHand') secondHands!: QueryList<ElementRef>;
 
   constructor(private clocksService: ClocksService, private cdr: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -77,7 +81,7 @@ removeClock(index: number): void {
 updateTime(): void {
   if (isPlatformBrowser(this.platformId)) {
   const now = moment();
-  this.displayClocks.forEach(clock => {
+  this.displayClocks.forEach((clock, index) => {
     if (clock.display) {
     const localTime = now.clone().tz(clock.timeZone);
     const formattedTime = clock.is24Hour
@@ -87,7 +91,7 @@ updateTime(): void {
     clock.formattedTime = formattedTime;
     
   if (clock.isAnalog) {
-    this.updateAnalogClock(localTime);
+    this.updateAnalogClock(localTime, index);
   }
 }
   });
@@ -96,15 +100,22 @@ updateTime(): void {
 }
 }
 
-private updateAnalogClock(localTime: moment.Moment): void {
+private updateAnalogClock(localTime: moment.Moment, index: number): void {
   localTime.format('hh:mm:ss A');
-  if (isPlatformBrowser(this.platformId) && this.hourHand && this.minuteHand && this.secondHand) {
+  if (isPlatformBrowser(this.platformId) && this.hourHands && this.minuteHands && this.secondHands) {
+    const hourHand = this.hourHands.toArray()[index]?.nativeElement;
+    const minuteHand = this.minuteHands.toArray()[index]?.nativeElement;
+    const secondHand = this.secondHands.toArray()[index]?.nativeElement;
+
+    if (hourHand && minuteHand && secondHand) {
     const hours = localTime.hour();
     const minutes = localTime.minute();
     const seconds = localTime.second();
-    this.secondHand.nativeElement.style.transform = `rotate(${seconds * 6}deg)`;
-    this.minuteHand.nativeElement.style.transform = `rotate(${minutes * 6}deg)`;
-    this.hourHand.nativeElement.style.transform = `rotate(${hours * 30 + minutes * 0.5}deg)`;
+
+    secondHand.style.transform = `rotate(${seconds * 6}deg)`;
+    minuteHand.style.transform = `rotate(${minutes * 6}deg)`;
+    hourHand.style.transform = `rotate(${hours * 30 + minutes * 0.5}deg)`;
+    }
   }
 }
 
