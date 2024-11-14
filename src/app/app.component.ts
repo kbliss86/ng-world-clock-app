@@ -18,10 +18,36 @@ import { Clock } from './clocks-interface/clock.interface';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  clocks: Clock[];  
+  clocks: Clock[];
+  currentHour: number = new Date().getHours();
+  manualHour: number | null = null;
 
   constructor(public clocksService: ClocksService) {
   this.clocks = this.clocksService.getDisplayClocks();
-  } 
+  }
+
+  //function to determine the current time bucket (increments of 6 hours)
+  getTimeBucket(): string {
+    const hour = this.manualHour !== null ? this.manualHour : this.currentHour;
+    if (hour >= 22 || hour < 4) {
+      return 'night';
+    } else if 
+      (hour >= 4 && hour < 10) {
+      return 'dawn';
+    } else if 
+      (hour >= 10 && hour < 16) {
+      return 'day';
+    } else {
+      return 'dusk';
+    } 
+  }
+
+  //function to set the manual hour
+  setManualHour(event: any): void {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value) && value >= 0 && value < 23) {
+      this.manualHour = value;
+    }
+  }
 
 }
